@@ -27,14 +27,17 @@ def etc(delta, n = n):
 
     return regret
     
-deltas = np.linspace(1e-8,1,80)
+deltas = np.linspace(1e-8,1,100)
 experimental_regrets = []
 theoretical_regrets = []
 
 for delta in deltas:
     x = delta + (4/delta)*np.max([ 0 , 1 + np.log(n * delta* delta/4)])
     theoretical_regrets.append(np.min([n*delta,x]))
-    experimental_regrets.append(etc(delta))
+    experimental_regret = 0
+    for i in range(100):
+        experimental_regret += etc(delta)/100
+    experimental_regrets.append(experimental_regret)
     
 
 plt.plot(deltas, experimental_regrets)
